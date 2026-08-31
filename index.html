@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rayhan — Analisis Muda</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap');
+
+  :root{
+    --bg-0:#05070c;
+    --bg-1:#0a1220;
+    --line-blue:#1d6fe0;
+    --line-blue-soft:rgba(29,111,224,0.35);
+    --silver:#cdd8e6;
+    --silver-dim:#7f8ea3;
+    --white:#f4f7fb;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    background:var(--bg-0);
+    color:var(--white);
+    font-family:'Work Sans', sans-serif;
+  }
+
+  body{
+    position:relative;
+    overflow-x:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:48px 20px;
+  }
+
+  /* background: faint chart grid, echoing the crest artwork */
+  .grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    background-image:
+      linear-gradient(var(--line-blue-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-blue-soft) 1px, transparent 1px);
+    background-size:42px 42px;
+    opacity:0.08;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 75%);
+  }
+
+  .bars{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    height:22vh;
+    z-index:0;
+    display:flex;
+    align-items:flex-end;
+    gap:3px;
+    padding:0 4%;
+    opacity:0.10;
+  }
+  .bars span{
+    flex:1;
+    background:linear-gradient(180deg, var(--line-blue), transparent);
+  }
+
+  .stage{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:480px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+
+  .ring{
+    position:relative;
+    width:148px;
+    height:148px;
+    border-radius:50%;
+    padding:4px;
+    background:conic-gradient(from 220deg, var(--line-blue), var(--silver) 40%, var(--line-blue) 75%, var(--silver-dim));
+    box-shadow:0 0 40px var(--line-blue-soft);
+    animation:spin 14s linear infinite;
+  }
+  @media (prefers-reduced-motion:reduce){ .ring{ animation:none; } }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .ring img{
+    display:block;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    object-fit:cover;
+    background:var(--bg-0);
+    border:3px solid var(--bg-0);
+    animation:unspin 14s linear infinite;
+  }
+  @keyframes unspin{ to{ transform:rotate(-360deg); } }
+  @media (prefers-reduced-motion:reduce){ .ring img{ animation:none; } }
+
+  .name{
+    font-family:'Rajdhani', sans-serif;
+    font-weight:700;
+    font-size:clamp(2.4rem, 9vw, 3.4rem);
+    letter-spacing:0.02em;
+    margin:26px 0 2px;
+    line-height:1;
+    background:linear-gradient(180deg, var(--white) 0%, var(--silver) 55%, var(--line-blue) 130%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .tagline{
+    font-family:'Rajdhani', sans-serif;
+    font-weight:600;
+    font-size:0.92rem;
+    letter-spacing:0.32em;
+    color:var(--silver-dim);
+    margin:0 0 34px;
+  }
+
+  .divider{
+    width:52px;
+    height:2px;
+    background:var(--line-blue);
+    margin-bottom:34px;
+    box-shadow:0 0 12px var(--line-blue);
+  }
+
+  .actions{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+
+  .btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    padding:18px 24px;
+    border-radius:10px;
+    text-decoration:none;
+    font-family:'Rajdhani', sans-serif;
+    font-weight:700;
+    font-size:1.15rem;
+    letter-spacing:0.04em;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:active{ transform:scale(0.98); }
+  .btn:focus-visible{ outline:2px solid var(--white); outline-offset:3px; }
+
+  .btn-score{
+    background:transparent;
+    border:1.5px solid var(--silver-dim);
+    color:var(--silver);
+  }
+  .btn-score:hover{
+    border-color:var(--silver);
+    color:var(--white);
+    box-shadow:0 0 22px rgba(205,216,230,0.15);
+  }
+
+  .btn-daftar{
+    background:linear-gradient(135deg, var(--line-blue) 0%, #123a7a 100%);
+    color:var(--white);
+    border:1.5px solid var(--line-blue);
+  }
+  .btn-daftar:hover{
+    box-shadow:0 0 28px var(--line-blue-soft);
+  }
+
+  .btn svg{ width:18px; height:18px; flex-shrink:0; }
+
+  .foot{
+    margin-top:40px;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    color:var(--silver-dim);
+  }
+</style>
+</head>
+<body>
+
+  <div class="grid-bg"></div>
+  <div class="bars" id="bars"></div>
+
+  <main class="stage">
+    <div class="ring">
+      <img src="profile.png" alt="Foto profil Rayhan">
+    </div>
+
+    <h1 class="name">RAYHAN</h1>
+    <p class="tagline">ANALISIS MUDA</p>
+    <div class="divider"></div>
+
+    <div class="actions">
+      <a class="btn btn-score" href="https://www.goal.com/id/livescore" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg>
+        LIHAT SKOR BOLA
+      </a>
+      <a class="btn btn-daftar" href="https://linkbahar.com/?referralid=bibi17" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        DAFTAR
+      </a>
+    </div>
+
+    <p class="foot">RAYHAN · ANALISIS MUDA</p>
+  </main>
+
+<script>
+  const bars = document.getElementById('bars');
+  const n = 40;
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('span');
+    const h = 15 + Math.round(Math.sin(i * 0.7) * 20 + Math.random() * 30);
+    el.style.height = h + '%';
+    bars.appendChild(el);
+  }
+</script>
+
+</body>
+</html>
